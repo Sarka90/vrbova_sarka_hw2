@@ -7,6 +7,10 @@ with open("netflix_titles.tsv", mode='r', encoding='utf-8') as file:
     reader = csv.DictReader(file, delimiter='\t')
     for row in reader:
         title = row["PRIMARYTITLE"]
+        if row["PRIMARYTITLE"]:
+            titles = row["PRIMARYTITLE"].split(",")
+        else:
+            titles = []
         if row["DIRECTOR"]:
             directors = row["DIRECTOR"].split(",")
         else:
@@ -25,7 +29,8 @@ with open("netflix_titles.tsv", mode='r', encoding='utf-8') as file:
         else:
             decade = None
         movie_dictionary = {
-            "title": [director.strip() for director in directors if director.strip()],
+            "title": [title.strip() for title in titles if title.strip()],
+            "director": [director.strip() for director in directors if director.strip()],
             "cast": [actor.strip() for actor in cast if actor.strip()],
             "genres": [genre.strip() for genre in genres if genre.strip()],
             "decade": decade
